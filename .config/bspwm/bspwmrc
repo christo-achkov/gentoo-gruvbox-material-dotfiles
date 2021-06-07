@@ -1,0 +1,40 @@
+#! /bin/sh
+bspc monitor DP-2 -d いち に さん し ご
+# bspc monitor DP-2 -d 一 二 三 四 五
+bspc monitor HDMI-0 -d ろく なな はち きゅう じゅう 
+# bspc monitor HDMI-0 -d 六 七 八 九 十
+bspc config border_width         3
+bspc config window_gap          15
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   false
+bspc config gapless_monocle      false
+bspc config focused_border_color \#D4BE98
+bspc config normal_border_color \#928374
+bspc config active_border_color \#928374
+
+bspc config pointer_modifier mod4
+bspc config pointer_action1 move
+bspc config pointer_action2 resize_side
+bspc config pointer_action3 resize_corner
+
+bspc config automatic_scheme spiral
+
+bspc config focus_follows_pointer true
+
+# autostart programs
+killall sxhkd
+sxhkd &
+killall picom 
+picom -CG &
+killall polybar
+
+# Wait until the processes have been shut down
+while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
+
+feh --bg-center /home/zaibatsu/Pictures/Wallpapers/feh1.png
+
+# Launch primary and secondary bars
+polybar -c ~/.config/polybar/config-primary.ini primary &
+# polybar -c ~/.config/polybar/config-primary.ini systray &
+polybar -c ~/.config/polybar/config-primary.ini secondary
